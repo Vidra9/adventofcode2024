@@ -10,17 +10,55 @@ int main()
 
     int output = 0;
     int max = 5;
+    char ch;
+    bool enabled = true;
 
-    while(input.ignore(256, 'm'))
+    while(input.get(ch))
     {
         char c;
 
-        input.get(c);
-        if (c != 'u') continue;
-        input.get(c);
-        if (c != 'l') continue;
-        input.get(c);
-        if (c != '(') continue;
+        if(ch == 'm')
+        {
+            if (!enabled) continue;
+            input.get(c);
+            if (c != 'u') continue;
+            input.get(c);
+            if (c != 'l') continue;
+            input.get(c);
+            if (c != '(') continue;
+        }
+        else if (ch == 'd')
+        {
+            input.get(c);
+            if (c != 'o') continue;
+            input.get(c);
+            if (c == '(')
+            {
+                input.get(c);
+                if (c == ')')
+                {
+                    enabled = true;
+                    continue;
+                }
+            }
+            else if (c == 'n')
+            {
+                input.get(c);
+                if (c != '\'') continue;
+                input.get(c);
+                if (c != 't') continue;
+                input.get(c);
+                if (c != '(') continue;
+                input.get(c);
+                if (c == ')') 
+                {
+                    enabled = false;
+                    continue;
+                }
+            }
+            else continue;
+        }
+        else continue;
 
         bool isBad = false;
         char* left = new char [3];
@@ -46,7 +84,7 @@ int main()
             if (isBad) continue;
             else
             {
-                printf("%d * %d \n", std::atoi(left), std::atoi(right));
+                // printf("%d * %d \n", std::atoi(left), std::atoi(right));
                 output += std::atoi(left) * std::atoi(right);
             }
         }
