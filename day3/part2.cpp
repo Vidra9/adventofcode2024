@@ -5,7 +5,7 @@
 
 int main()
 {
-    std::ifstream input("input3.txt");
+    std::ifstream input("input.txt");
     std::streambuf* sb = input.rdbuf();
 
     int output = 0;
@@ -84,7 +84,6 @@ int main()
             if (isBad) continue;
             else
             {
-                // printf("%d * %d \n", std::atoi(left), std::atoi(right));
                 output += std::atoi(left) * std::atoi(right);
             }
         }
