@@ -10,6 +10,7 @@ enum STEP_RESULT {MOVED, OBSTACLE_HIT, MAP_EDGE, LOOPED};
 
 std::pair<int, int> originalStart;
 std::vector<std::vector<int>> map;
+std::vector<std::pair<int, int>> attempted_obs;
 int total = 0;
 
 struct visited_tile
@@ -70,9 +71,14 @@ bool tryLooping(std::pair<int, int> pos, DIRECTION dir, std::vector<std::pair<in
     {
         if (obs == point) return false;
     }
+    for (auto& obs : attempted_obs)
+    {
+        if (obs == point) return false;
+    }
 
     // place obstacle in front of guard
     _obstacles.push_back(point);
+    attempted_obs.push_back(point);
 
     while(true)
     {
