@@ -8,76 +8,6 @@
 std::vector<std::vector<int>> map;
 int total = 0;
 
-void rotate90(DIRECTION& dir)
-{
-    switch (dir)
-    {
-    case DIRECTION::UP:
-        dir = DIRECTION::RIGHT;
-        break;
-    case DIRECTION::RIGHT:
-        dir = DIRECTION::DOWN;
-        break;
-    case DIRECTION::DOWN:
-        dir = DIRECTION::LEFT;
-        break;
-    case DIRECTION::LEFT:
-        dir = DIRECTION::UP;
-        break;
-    }
-}
-
-std::pair<int, int> findClosestObstacleInDir(DIRECTION dir, const std::vector<std::pair<int, int>> _obstacles, const std::pair<int, int>& pos)
-{
-    std::pair<int, int> closetObs = pos;
-    int closestDist = INT_MAX;
-    switch (dir)
-    {
-    case DIRECTION::UP:
-        for (std::pair<int, int> obs : _obstacles)
-        {
-            if(obs.second == pos.second && abs(obs.first - pos.first) < closestDist && obs.first < pos.first)
-            {
-                closestDist = abs(obs.first - pos.first);
-                closetObs = obs;
-            }
-        }
-        break;
-    case DIRECTION::RIGHT:
-        for (std::pair<int, int> obs : _obstacles)
-        {
-            if(obs.first == pos.first && abs(obs.second - pos.second) < closestDist && obs.second > pos.second)
-            {
-                closestDist = abs(obs.second - pos.second);
-                closetObs = obs;
-            }
-        }
-        break;
-    case DIRECTION::DOWN:
-        for (std::pair<int, int> obs : _obstacles)
-        {
-            if(obs.second == pos.second && abs(obs.first - pos.first) < closestDist && obs.first > pos.first)
-            {
-                closestDist = abs(obs.first - pos.first);
-                closetObs = obs;
-            }
-        }
-        break;
-    case DIRECTION::LEFT:
-        for (std::pair<int, int> obs : _obstacles)
-        {
-            if(obs.first == pos.first && abs(obs.second - pos.second) < closestDist && obs.second < pos.second)
-            {
-                closestDist = abs(obs.second - pos.second);
-                closetObs = obs;
-            }
-        }
-    default:
-        break;
-    }
-    return closetObs;
-}
-
 bool pathGuard(DIRECTION& dir, std::pair<int, int>& start, const std::vector<std::pair<int, int>> _obstacles, bool exit)
 {
     bool obsHit = false;
@@ -158,19 +88,6 @@ bool pathGuard(DIRECTION& dir, std::pair<int, int>& start, const std::vector<std
     return obsHit;
 }
 
-void print2DArray(const std::vector<std::vector<int>>& vec)
-{
-    printf_s("\n");
-    for(const std::vector<int>& v : vec)
-    {
-        for(const int& num : v)
-        {
-            printf_s("%d", num);
-        }
-        printf_s("\n");
-    }
-}
-
 int main()
 {
     // std::ifstream inputFile("../test.txt");
@@ -194,10 +111,7 @@ int main()
         }
         lineNum++;
     }
-
-    // printf_s("guard pos: %d %d\n", startPos.first, startPos.second);
-
-    bool obstacleHit = true;
+    
     DIRECTION movementDir = DIRECTION::UP;
     while(pathGuard(movementDir, startPos, obstacles, false))
     {
